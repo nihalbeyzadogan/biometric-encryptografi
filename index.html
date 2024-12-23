@@ -1,50 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Puzzle</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-        input {
-            margin: 10px;
-            padding: 10px;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Şifreyi Kır: Biometrik Kriptografi Oyunu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    .question-box {
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 600px;
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .hidden {
+      display: none;
+    }
+    #qr-container {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Find the Word!</h1>
-    <p>Clue: <strong>HYNHYNFX</strong></p>
-    <p>Hint: Caesar Cipher (+5)</p>
-    <input type="text" id="userInput" placeholder="Enter your answer">
-    <button onclick="checkAnswer()">Check</button>
-    <p id="result"></p>
+  <h1>Şifreyi Kır: Biometrik Kriptografi Oyunu</h1>
+  <div class="question-box">
+    <p id="question">Biometrik kriptografi hangi özelliği kullanır?</p>
+    <button onclick="checkAnswer(1)">Parmak izi</button>
+    <button onclick="checkAnswer(2)">Şifre</button>
+    <button onclick="checkAnswer(3)">Anahtar kartı</button>
+  </div>
+  <div id="result" class="hidden">
+    <h2 id="feedback"></h2>
+    <button onclick="nextQuestion()">Sonraki Soru</button>
+  </div>
+  <div id="qr-container" class="hidden">
+    <h3>Tebrikler! Oyunu tamamladınız.</h3>
+    <p>Oyunun devamına ulaşmak için QR kodu tarayın:</p>
+    <canvas id="qr-code"></canvas>
+  </div>
 
-    <script>
-        // Correct word: "DISSEMBLE" (Caesar cipher with +5 shift)
-        const correctAnswer = "DISSEMBLE";
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script>
+    const questions = [
+      {
+        text: "Biometrik kriptografi hangi özelliği kullanır?",
+        answers: ["Parmak izi", "Şifre", "Anahtar kartı"],
+        correct: 1,
+      },
+      {
+        text: "Aşağıdakilerden hangisi bir biometrik yöntemdir?",
+        answers: ["Retina taraması", "Kredi kartı", "Kullanıcı adı"],
+        correct: 1,
+      },
+      {
+        text: "Biyometrik verilerle ilgili en büyük güvenlik riski nedir?",
+        answers: ["Kopyalanması zor", "Geri döndürülemez", "Kolay değiştirilir"],
+        correct: 2,
+      },
+    ];
 
-        function checkAnswer() {
-            const userInput = document.getElementById("userInput").value.toUpperCase();
-            const resultElement = document.getElementById("result");
+    let currentQuestion = 0;
 
-            if (userInput === correctAnswer) {
-                resultElement.textContent = "Yes, that's correct!";
-                resultElement.style.color = "green";
-            } else {
-                resultElement.textContent = `No, the correct answer is: ${correctAnswer}`;
-                resultElement.style.color = "red";
-            }
-        }
-    </script>
+    function checkAnswer(answer) {
+      const feedback = document.getElementById("feedback");
+      const result = document.getElementById("result");
+      const questionBox = document.querySelector(".question-box");
+
+      if (answer === questions[currentQuestion].correct) {
+        feedback.textContent = "Doğru!";
+        feedback.style.color = "green";
+      } else {
+        feedback.textContent = "Yanlış! Doğru cevap: " + 
+          questions[currentQuestion].answers[questions[currentQuestion].correct - 1];
+        feedback.style.color = "red";
+      }
+
+      result.classList.remove("hidden");
+      questionBox.classList.add("hidden");
+    }
+
+    function nextQuestion() {
+      const questionBox = document.querySelector(".question-box");
+      const result = document.getElementById("result");
+      const qrContainer = document.getElementById("qr-container");
+
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        const questionEl = document.getElementById("question");
+        questionEl.textContent = questions[currentQuestion].text;
+
+        const buttons = document.querySelectorAll("button");
+        buttons.forEach((button, index) => {
+          button.textContent = questions[currentQuestion].answers[index];
+        });
+
+        result.classList.add("hidden");
+        questionBox.classList.remove("hidden");
+      } else {
+        result.classList.add("hidden");
+        qrContainer.classList.remove("hidden");
+
+        const qrCode = document.getElementById("qr-code");
+        QRCode.toCanvas(qrCode, "https://example.com/biometric-cryptography", {
+          width: 200,
+        });
+      }
+    }
+  </script>
 </body>
 </html>
