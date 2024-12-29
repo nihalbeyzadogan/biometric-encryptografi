@@ -1,133 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Şifreyi Kır: Biometrik Kriptografi Oyunu</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f4f4f9;
-      margin: 0;
-      padding: 0;
-    }
-    h1 {
-      color: #333;
-    }
-    .question-box {
-      margin: 20px auto;
-      padding: 20px;
-      max-width: 600px;
-      background: #fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-    }
-    button {
-      margin: 10px;
-      padding: 10px 20px;
-      background: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    .hidden {
-      display: none;
-    }
-    #qr-container {
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biyometrik Labirent</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .qr-code {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .qr-code img {
+            max-width: 200px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-  <h1>Şifreyi Kır: Biometrik Kriptografi Oyunu</h1>
-  <div class="question-box">
-    <p id="question">Biometrik kriptografi hangi özelliği kullanır?</p>
-    <button onclick="checkAnswer(1)">Parmak izi</button>
-    <button onclick="checkAnswer(2)">Şifre</button>
-    <button onclick="checkAnswer(3)">Anahtar kartı</button>
-  </div>
-  <div id="result" class="hidden">
-    <h2 id="feedback"></h2>
-    <button onclick="nextQuestion()">Sonraki Soru</button>
-  </div>
-  <div id="qr-container" class="hidden">
-    <h3>Tebrikler! Oyunu tamamladınız.</h3>
-    <p>Oyunun devamına ulaşmak için QR kodu tarayın:</p>
-    <canvas id="qr-code"></canvas>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-  <script>
-    const questions = [
-      {
-        text: "Biometrik kriptografi hangi özelliği kullanır?",
-        answers: ["Parmak izi", "Şifre", "Anahtar kartı"],
-        correct: 1,
-      },
-      {
-        text: "Aşağıdakilerden hangisi bir biometrik yöntemdir?",
-        answers: ["Retina taraması", "Kredi kartı", "Kullanıcı adı"],
-        correct: 1,
-      },
-      {
-        text: "Biyometrik verilerle ilgili en büyük güvenlik riski nedir?",
-        answers: ["Kopyalanması zor", "Geri döndürülemez", "Kolay değiştirilir"],
-        correct: 2,
-      },
-    ];
-
-    let currentQuestion = 0;
-
-    function checkAnswer(answer) {
-      const feedback = document.getElementById("feedback");
-      const result = document.getElementById("result");
-      const questionBox = document.querySelector(".question-box");
-
-      if (answer === questions[currentQuestion].correct) {
-        feedback.textContent = "Doğru!";
-        feedback.style.color = "green";
-      } else {
-        feedback.textContent = "Yanlış! Doğru cevap: " + 
-          questions[currentQuestion].answers[questions[currentQuestion].correct - 1];
-        feedback.style.color = "red";
-      }
-
-      result.classList.remove("hidden");
-      questionBox.classList.add("hidden");
-    }
-
-    function nextQuestion() {
-      const questionBox = document.querySelector(".question-box");
-      const result = document.getElementById("result");
-      const qrContainer = document.getElementById("qr-container");
-
-      currentQuestion++;
-      if (currentQuestion < questions.length) {
-        const questionEl = document.getElementById("question");
-        questionEl.textContent = questions[currentQuestion].text;
-
-        const buttons = document.querySelectorAll("button");
-        buttons.forEach((button, index) => {
-          button.textContent = questions[currentQuestion].answers[index];
-        });
-
-        result.classList.add("hidden");
-        questionBox.classList.remove("hidden");
-      } else {
-        result.classList.add("hidden");
-        qrContainer.classList.remove("hidden");
-
-        const qrCode = document.getElementById("qr-code");
-        QRCode.toCanvas(qrCode, "https://example.com/biometric-cryptography", {
-          width: 200,
-        });
-      }
-    }
-  </script>
+    <div class="container">
+        <h1>Biyometrik Labirent</h1>
+        <div class="section">
+            <p>QR kodu tarayın ve biyometrik verilerinizi kullanarak etkileşimli bir yolculuğa çıkın. Her aşama sizi bir sonraki adım için yeni bilgilerle donatacak!</p>
+        </div>
+        <div class="section qr-code">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://your-app-link.com" alt="Başlangıç QR Kodu">
+        </div>
+        <div class="section">
+            <p>Taradıktan sonra biyometrik verilerinizi simüle ederek bir mesajın şifresini çözmek için yönlendirileceksiniz.</p>
+            <a href="https://your-app-link.com" class="btn">QR Kod Bağlantısını Aç</a>
+        </div>
+    </div>
 </body>
 </html>
