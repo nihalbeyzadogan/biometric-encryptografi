@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biyometrik Labirent</title>
+    <title>Biyometrik Simülasyon Oyunu</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #f4f4f9;
             color: #333;
         }
         .container {
@@ -27,44 +27,58 @@
         .section {
             margin-bottom: 20px;
         }
-        .qr-code {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .qr-code img {
-            max-width: 200px;
+        .game-screen {
+            text-align: center;
         }
         .btn {
-            display: block;
-            width: 100%;
-            text-align: center;
-            padding: 10px;
+            display: inline-block;
+            padding: 10px 20px;
             background-color: #007BFF;
             color: white;
             text-decoration: none;
             border-radius: 5px;
-            margin-top: 10px;
+            margin-top: 20px;
+            cursor: pointer;
             transition: background-color 0.3s;
         }
         .btn:hover {
             background-color: #0056b3;
         }
+        .result {
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: #28a745;
+        }
+        .error {
+            color: #dc3545;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Biyometrik Labirent</h1>
-        <div class="section">
-            <p>QR kodu tarayın ve biyometrik verilerinizi kullanarak etkileşimli bir yolculuğa çıkın. Her aşama sizi bir sonraki adım için yeni bilgilerle donatacak!</p>
-        </div>
-        <div class="section qr-code">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://your-app-link.com" alt="Başlangıç QR Kodu">
-        </div>
-        <div class="section">
-            <p>Taradıktan sonra biyometrik verilerinizi simüle ederek bir mesajın şifresini çözmek için yönlendirileceksiniz.</p>
-            <a href="https://your-app-link.com" class="btn">QR Kod Bağlantısını Aç</a>
+        <h1>Biyometrik Simülasyon Oyunu</h1>
+        <div class="section game-screen" id="game-screen">
+            <p>Parmak izi taramasını simüle etmek için aşağıdaki düğmeye tıklayın:</p>
+            <button class="btn" onclick="simulateBiometric()">Parmak İzi Tara</button>
+            <div id="result" class="result"></div>
         </div>
     </div>
+
+    <script>
+        function simulateBiometric() {
+            // Biyometrik doğrulama simülasyonu
+            const successRate = Math.random();
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = '';
+
+            if (successRate > 0.7) {
+                resultDiv.textContent = 'Doğrulama başarılı! Şifrelenmiş mesajın kilidi açıldı.';
+                resultDiv.className = 'result';
+            } else {
+                resultDiv.textContent = 'Doğrulama başarısız. Lütfen tekrar deneyin.';
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
 </body>
 </html>
