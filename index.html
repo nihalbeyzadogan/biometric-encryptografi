@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biyometrik Simülasyon Oyunu</title>
+    <title>Biyometrik Şifreleme Simülasyonu</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,32 +52,59 @@
         .error {
             color: #dc3545;
         }
+        .key {
+            font-family: monospace;
+            background-color: #f1f1f1;
+            padding: 5px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Biyometrik Simülasyon Oyunu</h1>
+        <h1>Biyometrik Şifreleme Simülasyonu</h1>
         <div class="section game-screen" id="game-screen">
-            <p>Parmak izi taramasını simüle etmek için aşağıdaki düğmeye tıklayın:</p>
-            <button class="btn" onclick="simulateBiometric()">Parmak İzi Tara</button>
-            <div id="result" class="result"></div>
+            <p>Biyometrik verilerinizi kullanarak bir mesaj şifreleyin ve şifreyi çözün!</p>
+            <button class="btn" onclick="generateKey()">Şifreleme Anahtarı Oluştur</button>
+            <div id="key" class="result"></div>
+            <button class="btn" onclick="encryptMessage()">Mesajı Şifrele</button>
+            <div id="encryptedMessage" class="result"></div>
+            <button class="btn" onclick="decryptMessage()">Şifreyi Çöz</button>
+            <div id="decryptedMessage" class="result"></div>
         </div>
     </div>
 
     <script>
-        function simulateBiometric() {
-            // Biyometrik doğrulama simülasyonu
-            const successRate = Math.random();
-            const resultDiv = document.getElementById('result');
-            resultDiv.textContent = '';
+        let biometricKey = '';
+        let encryptedMessage = '';
 
-            if (successRate > 0.7) {
-                resultDiv.textContent = 'Doğrulama başarılı! Şifrelenmiş mesajın kilidi açıldı.';
-                resultDiv.className = 'result';
-            } else {
-                resultDiv.textContent = 'Doğrulama başarısız. Lütfen tekrar deneyin.';
-                resultDiv.className = 'result error';
+        function generateKey() {
+            // Simulate a biometric key generation (hash-based key)
+            biometricKey = Math.random().toString(36).substring(2, 10);
+            const keyDiv = document.getElementById('key');
+            keyDiv.textContent = `Şifreleme Anahtarı: ${biometricKey}`;
+        }
+
+        function encryptMessage() {
+            if (!biometricKey) {
+                alert('Lütfen önce bir şifreleme anahtarı oluşturun!');
+                return;
             }
+            const message = 'Gizli Mesaj';
+            encryptedMessage = btoa(biometricKey + message);
+            const encryptedDiv = document.getElementById('encryptedMessage');
+            encryptedDiv.textContent = `Şifrelenmiş Mesaj: ${encryptedMessage}`;
+        }
+
+        function decryptMessage() {
+            if (!encryptedMessage) {
+                alert('Şifrelenmiş bir mesaj bulunamadı!');
+                return;
+            }
+            const decrypted = atob(encryptedMessage);
+            const originalMessage = decrypted.replace(biometricKey, '');
+            const decryptedDiv = document.getElementById('decryptedMessage');
+            decryptedDiv.textContent = `Çözülen Mesaj: ${originalMessage}`;
         }
     </script>
 </body>
