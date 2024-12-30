@@ -3,114 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biyometrik Şifreleme Animasyonu</title>
+    <title>Biometric Encryption Simulation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
+            margin: 20px;
+            line-height: 1.6;
         }
         .container {
+            max-width: 800px;
+            margin: auto;
             padding: 20px;
-        }
-        #animationCanvas {
-            display: block;
-            margin: 20px auto;
             border: 1px solid #ddd;
-            background-color: #fff;
+            border-radius: 8px;
+            background: #f9f9f9;
         }
-        .btn {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .result {
+            background: #e9f7e9;
+            padding: 15px;
+            border: 1px solid #c2e0c2;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            background: #4caf50;
+            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 20px;
         }
-        .btn:hover {
-            background-color: #0056b3;
+        button:hover {
+            background: #45a049;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Biyometrik Şifreleme Süreci</h1>
-        <canvas id="animationCanvas" width="600" height="400"></canvas>
-        <button class="btn" onclick="nextStep()">Sonraki Adım</button>
+        <h1>Biometric Encryption Simulation</h1>
+        <p>This simulation demonstrates how a biometric fingerprint is encrypted using hashing and encryption techniques.</p>
+
+        <div class="input-group">
+            <label for="fingerprint">Enter Fingerprint Data:</label>
+            <input type="text" id="fingerprint" placeholder="e.g., unique pattern data" style="width: 100%; padding: 10px;">
+        </div>
+
+        <button onclick="processEncryption()">Encrypt Fingerprint</button>
+
+        <div id="result" class="result" style="display: none;">
+            <h3>Encryption Process:</h3>
+            <p><strong>Original Data:</strong> <span id="original"></span></p>
+            <p><strong>Hashed Data:</strong> <span id="hashed"></span></p>
+            <p><strong>Encrypted Data:</strong> <span id="encrypted"></span></p>
+        </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('animationCanvas');
-        const ctx = canvas.getContext('2d');
-        let step = 0;
-
-        function drawStep1() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.font = "20px Arial";
-            ctx.fillText("Adım 1: Biyometrik veri toplanıyor (ör. parmak izi)...", 50, 50);
-
-            // Parmak izi görselleştirme
-            ctx.beginPath();
-            ctx.arc(300, 200, 50, 0, Math.PI * 2, true);
-            ctx.strokeStyle = "#007BFF";
-            ctx.lineWidth = 4;
-            ctx.stroke();
-            ctx.fillStyle = "#f1f1f1";
-            ctx.fill();
-            ctx.fillStyle = "#333";
-            ctx.fillText("Parmak İzi", 260, 210);
-        }
-
-        function drawStep2() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.font = "20px Arial";
-            ctx.fillText("Adım 2: Veri dijitalleştiriliyor...", 50, 50);
-
-            // Veri görselleştirme
-            ctx.fillStyle = "#007BFF";
-            ctx.fillRect(200, 150, 200, 100);
-            ctx.fillStyle = "#fff";
-            ctx.fillText("Dijital Veri", 250, 200);
-        }
-
-        function drawStep3() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.font = "20px Arial";
-            ctx.fillText("Adım 3: Veri şifreleniyor...", 50, 50);
-
-            // Şifreleme görselleştirme
-            ctx.fillStyle = "#28a745";
-            ctx.fillRect(200, 150, 200, 100);
-            ctx.fillStyle = "#fff";
-            ctx.fillText("Şifrelenmiş Veri", 220, 200);
-        }
-
-        function drawStep4() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.font = "20px Arial";
-            ctx.fillText("Adım 4: Veri çözüldü ve kullanıma hazır.", 50, 50);
-
-            // Çözülmüş veri görselleştirme
-            ctx.fillStyle = "#ffc107";
-            ctx.fillRect(200, 150, 200, 100);
-            ctx.fillStyle = "#333";
-            ctx.fillText("Çözülen Veri", 230, 200);
-        }
-
-        function nextStep() {
-            step++;
-            if (step === 1) drawStep1();
-            else if (step === 2) drawStep2();
-            else if (step === 3) drawStep3();
-            else if (step === 4) drawStep4();
-            else {
-                step = 0;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillText("Animasyon bitti! Tekrar başlatmak için tıklayın.", 100, 200);
+        function hashFingerprint(data) {
+            // Simple hash function (example only, not secure for real use!)
+            let hash = 0;
+            for (let i = 0; i < data.length; i++) {
+                const char = data.charCodeAt(i);
+                hash = (hash << 5) - hash + char;
+                hash |= 0; // Convert to 32bit integer
             }
+            return hash.toString(16);
+        }
+
+        function encryptHash(hash) {
+            // Simple encryption using base64 (example only!)
+            return btoa(hash);
+        }
+
+        function processEncryption() {
+            const fingerprint = document.getElementById("fingerprint").value;
+            if (!fingerprint) {
+                alert("Please enter fingerprint data.");
+                return;
+            }
+
+            // Step 1: Hash the fingerprint data
+            const hashed = hashFingerprint(fingerprint);
+
+            // Step 2: Encrypt the hash
+            const encrypted = encryptHash(hashed);
+
+            // Display results
+            document.getElementById("original").innerText = fingerprint;
+            document.getElementById("hashed").innerText = hashed;
+            document.getElementById("encrypted").innerText = encrypted;
+            document.getElementById("result").style.display = "block";
         }
     </script>
 </body>
